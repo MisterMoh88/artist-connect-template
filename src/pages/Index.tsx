@@ -1,13 +1,38 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import HeroSection from '@/components/hero/HeroSection';
+import FeaturesSection from '@/components/features/FeaturesSection';
+import TestimonialsSection from '@/components/testimonials/TestimonialsSection';
+import PricingSection from '@/components/pricing/PricingSection';
+import CtaSection from '@/components/cta/CtaSection';
+import PageLayout from '@/components/layout/PageLayout';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <PageLayout>
+      <HeroSection 
+        title="Propulsez votre carrière artistique dans l'ère numérique"
+        subtitle="Plateforme complète de gestion de communication digitale pour artistes, labels et agences. Maximisez votre présence en ligne et développez votre audience."
+        buttonText="Découvrir nos services"
+        secondaryButtonText="Contacter un expert"
+        buttonLink="/services"
+        secondaryButtonLink="/contact"
+      />
+      
+      <FeaturesSection />
+      
+      <TestimonialsSection />
+      
+      <PricingSection />
+      
+      <CtaSection 
+        title="Prêt à faire passer votre carrière au niveau supérieur ?"
+        subtitle="Rejoignez des centaines d'artistes qui font confiance à BkoTube pour leur communication digitale."
+        primaryButtonText="Commencer maintenant"
+        primaryButtonLink="/services"
+        secondaryButtonText="En savoir plus"
+        secondaryButtonLink="/contact"
+      />
+    </PageLayout>
   );
 };
 
