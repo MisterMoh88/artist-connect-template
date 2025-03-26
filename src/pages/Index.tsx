@@ -5,6 +5,7 @@ import TestimonialsSection from '@/components/testimonials/TestimonialsSection';
 import PricingSection from '@/components/pricing/PricingSection';
 import CtaSection from '@/components/cta/CtaSection';
 import PageLayout from '@/components/layout/PageLayout';
+import FeaturedSection from '@/components/featured/FeaturedSection';
 
 const Index = () => {
   return (
@@ -16,7 +17,10 @@ const Index = () => {
         secondaryButtonText="Contacter un expert"
         buttonLink="/services"
         secondaryButtonLink="/contact"
+        useCarousel={true}
       />
+      
+      <FeaturedSection />
       
       <FeaturesSection />
       

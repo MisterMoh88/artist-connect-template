@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ChevronRight, ArrowRight } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 interface HeroSectionProps {
   title: string;
@@ -15,7 +16,23 @@ interface HeroSectionProps {
   secondaryButtonLink?: string;
   showTrustedBy?: boolean;
   className?: string;
+  useCarousel?: boolean;
 }
+
+const carouselImages = [
+  {
+    src: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop",
+    alt: "Artiste en studio"
+  },
+  {
+    src: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop",
+    alt: "Concert live"
+  },
+  {
+    src: "https://images.unsplash.com/photo-1598387846148-47e82ee120cc?q=80&w=1200&auto=format&fit=crop",
+    alt: "Production musicale"
+  }
+];
 
 const HeroSection = ({
   title,
@@ -27,6 +44,7 @@ const HeroSection = ({
   secondaryButtonLink = '/contact',
   showTrustedBy = true,
   className,
+  useCarousel = false,
 }: HeroSectionProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -95,16 +113,39 @@ const HeroSection = ({
             isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
             "image-wrapper" + (isLoaded ? " image-loaded" : "")
           )}>
-            <div className="image-placeholder bg-brand-100/50"></div>
-            <img
-              src={image}
-              alt="Plateforme de gestion pour artistes"
-              className={cn(
-                "object-cover w-full h-full rounded-2xl image-main",
-                "shadow-xl shadow-brand-200/40"
-              )}
-              onLoad={() => setIsLoaded(true)}
-            />
+            {useCarousel ? (
+              <Carousel className="w-full h-full">
+                <CarouselContent className="h-full">
+                  {carouselImages.map((img, index) => (
+                    <CarouselItem key={index} className="h-full">
+                      <div className="h-full w-full relative overflow-hidden rounded-2xl">
+                        <img
+                          src={img.src}
+                          alt={img.alt}
+                          className="object-cover w-full h-full rounded-2xl"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-4 lg:left-8" />
+                <CarouselNext className="right-4 lg:right-8" />
+              </Carousel>
+            ) : (
+              <>
+                <div className="image-placeholder bg-brand-100/50"></div>
+                <img
+                  src={image}
+                  alt="Plateforme de gestion pour artistes"
+                  className={cn(
+                    "object-cover w-full h-full rounded-2xl image-main",
+                    "shadow-xl shadow-brand-200/40"
+                  )}
+                  onLoad={() => setIsLoaded(true)}
+                />
+              </>
+            )}
             
             {/* Floating Card Animation */}
             <div className="absolute -bottom-20 -right-20 w-60 h-60 md:w-80 md:h-80 rounded-full bg-brand-500/10 blur-3xl animate-float"></div>
