@@ -9,7 +9,180 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      artists: {
+        Row: {
+          bio: string | null
+          created_at: string
+          email: string
+          id: string
+          image_url: string | null
+          name: string
+          social_facebook: string | null
+          social_instagram: string | null
+          social_spotify: string | null
+          social_youtube: string | null
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          image_url?: string | null
+          name: string
+          social_facebook?: string | null
+          social_instagram?: string | null
+          social_spotify?: string | null
+          social_youtube?: string | null
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          image_url?: string | null
+          name?: string
+          social_facebook?: string | null
+          social_instagram?: string | null
+          social_spotify?: string | null
+          social_youtube?: string | null
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      media_contents: {
+        Row: {
+          artist_id: string
+          category_id: string
+          cover_image_url: string | null
+          created_at: string
+          description: string | null
+          featured: boolean
+          id: string
+          media_url: string
+          release_date: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          artist_id: string
+          category_id: string
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          media_url: string
+          release_date: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          artist_id?: string
+          category_id?: string
+          cover_image_url?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          media_url?: string
+          release_date?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "media_contents_artist_id_fkey"
+            columns: ["artist_id"]
+            isOneToOne: false
+            referencedRelation: "artists"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "media_contents_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          role?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string
+          description: string
+          duration_days: number
+          features: Json
+          id: string
+          name: string
+          price: number
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          duration_days: number
+          features: Json
+          id?: string
+          name: string
+          price: number
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          duration_days?: number
+          features?: Json
+          id?: string
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
