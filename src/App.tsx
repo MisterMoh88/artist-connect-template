@@ -12,6 +12,7 @@ import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
+import Export from "./pages/Export";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const App = () => (
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/export" element={<Export />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
