@@ -86,8 +86,10 @@ const Export = () => {
   };
 
   return (
-    <PageLayout title="Exportation" description="Exportez votre contenu BkoTube vers d'autres plateformes.">
+    <PageLayout className="py-0">
       <div className="container py-10">
+        <h1 className="text-3xl font-bold mb-4">Exportation</h1>
+        <p className="text-lg mb-8">Exportez votre contenu BkoTube vers d'autres plateformes.</p>
         <Card className="w-full max-w-3xl mx-auto">
           <CardHeader>
             <CardTitle>Exportation au format XML</CardTitle>

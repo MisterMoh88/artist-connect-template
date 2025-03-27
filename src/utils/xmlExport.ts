@@ -14,6 +14,14 @@ const escapeXML = (text: string | null | undefined): string => {
 
 // Générer le XML pour un artiste
 const generateArtistXML = (artist: Artist): string => {
+  // Créer un objet pour les réseaux sociaux
+  const socialLinks = {
+    facebook: artist.social_facebook,
+    instagram: artist.social_instagram,
+    spotify: artist.social_spotify,
+    youtube: artist.social_youtube
+  };
+
   return `
   <item>
     <title>${escapeXML(artist.name)}</title>
@@ -21,11 +29,11 @@ const generateArtistXML = (artist: Artist): string => {
     <content:encoded><![CDATA[${artist.bio || ''}]]></content:encoded>
     <wp:postmeta>
       <wp:meta_key>_photo</wp:meta_key>
-      <wp:meta_value>${escapeXML(artist.avatar_url)}</wp:meta_value>
+      <wp:meta_value>${escapeXML(artist.image_url)}</wp:meta_value>
     </wp:postmeta>
     <wp:postmeta>
       <wp:meta_key>_social_media</wp:meta_key>
-      <wp:meta_value>${escapeXML(artist.social_links ? JSON.stringify(artist.social_links) : '')}</wp:meta_value>
+      <wp:meta_value>${escapeXML(JSON.stringify(socialLinks))}</wp:meta_value>
     </wp:postmeta>
   </item>`;
 };
@@ -39,7 +47,7 @@ const generateMediaXML = (media: MediaContent, artistName?: string, categoryName
     <content:encoded><![CDATA[${media.description || ''}]]></content:encoded>
     <wp:postmeta>
       <wp:meta_key>_cover_image</wp:meta_key>
-      <wp:meta_value>${escapeXML(media.thumbnail_url)}</wp:meta_value>
+      <wp:meta_value>${escapeXML(media.cover_image_url)}</wp:meta_value>
     </wp:postmeta>
     <wp:postmeta>
       <wp:meta_key>_artist</wp:meta_key>
@@ -55,19 +63,22 @@ const generateMediaXML = (media: MediaContent, artistName?: string, categoryName
     </wp:postmeta>
     <wp:postmeta>
       <wp:meta_key>_featured</wp:meta_key>
-      <wp:meta_value>${media.is_featured ? '1' : '0'}</wp:meta_value>
+      <wp:meta_value>${media.featured ? '1' : '0'}</wp:meta_value>
     </wp:postmeta>
   </item>`;
 };
 
 // Générer le XML pour une catégorie
 const generateCategoryXML = (category: Category): string => {
+  // Créer une description par défaut si elle n'existe pas
+  const categoryDescription = category.slug || '';
+
   return `
   <wp:category>
     <wp:term_id>${category.id}</wp:term_id>
     <wp:category_nicename>${escapeXML(category.slug)}</wp:category_nicename>
     <wp:cat_name>${escapeXML(category.name)}</wp:cat_name>
-    <wp:category_description>${escapeXML(category.description)}</wp:category_description>
+    <wp:category_description>${escapeXML(categoryDescription)}</wp:category_description>
   </wp:category>`;
 };
 
