@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
@@ -7,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
-import { generateXMLExport, downloadXMLFile } from '@/utils/xmlExport';
+import { generateXMLExport, downloadXMLFile } from '@/utils/xml-export';
 import { useToast } from '@/hooks/use-toast';
 import { Artist, MediaContent, Category } from '@/types/supabase-custom';
 import { Loader2 } from 'lucide-react';
