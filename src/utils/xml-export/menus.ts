@@ -1,5 +1,5 @@
 
-import { generateSlug } from './helpers';
+import { escapeXML, generateSlug } from './helpers';
 
 // Générer les menus de navigation
 export const generateNavigationMenusXML = (): string => {
@@ -7,6 +7,7 @@ export const generateNavigationMenusXML = (): string => {
     'main-menu': {
       id: 1,
       name: 'Menu Principal',
+      slug: 'menu-principal', // Ajout du slug
       items: [
         { title: 'Accueil', url: '/', order: 1 },
         { title: 'Services', url: '/services', order: 2 },
@@ -18,6 +19,7 @@ export const generateNavigationMenusXML = (): string => {
     'footer-menu': {
       id: 2,
       name: 'Menu Pied de Page',
+      slug: 'menu-pied-de-page', // Ajout du slug
       items: [
         { title: 'Accueil', url: '/', order: 1 },
         { title: 'À propos', url: '/a-propos', order: 2 },
@@ -44,8 +46,8 @@ export const generateNavigationMenusXML = (): string => {
     <wp:term>
       <wp:term_id>${menu.id}</wp:term_id>
       <wp:term_taxonomy>nav_menu</wp:term_taxonomy>
-      <wp:term_slug><![CDATA[${key}]]></wp:term_slug>
-      <wp:term_name><![CDATA[${menu.name}]]></wp:term_name>
+      <wp:term_slug><![CDATA[${menu.slug}]]></wp:term_slug>
+      <wp:term_name><![CDATA[${escapeXML(menu.name)}]]></wp:term_name>
     </wp:term>`;
     
     // Menu Items (en tant que posts)
@@ -55,7 +57,7 @@ export const generateNavigationMenusXML = (): string => {
       
       menusXML += `
       <item>
-        <title><![CDATA[${item.title}]]></title>
+        <title><![CDATA[${escapeXML(item.title)}]]></title>
         <link>${item.url}</link>
         <pubDate>${new Date().toUTCString()}</pubDate>
         <dc:creator><![CDATA[admin]]></dc:creator>
@@ -77,6 +79,10 @@ export const generateNavigationMenusXML = (): string => {
         <wp:postmeta>
           <wp:meta_key><![CDATA[_menu_item_object]]></wp:meta_key>
           <wp:meta_value><![CDATA[custom]]></wp:meta_value>
+        </wp:postmeta>
+        <wp:postmeta>
+          <wp:meta_key><![CDATA[_menu_item_object_id]]></wp:meta_key>
+          <wp:meta_value><![CDATA[0]]></wp:meta_value>
         </wp:postmeta>
         <wp:postmeta>
           <wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>

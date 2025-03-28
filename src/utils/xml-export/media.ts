@@ -1,6 +1,6 @@
 
 import { MediaContent } from '@/types/supabase-custom';
-import { generateSlug } from './helpers';
+import { escapeXML, generateSlug } from './helpers';
 
 // Générer le XML pour un média
 export const generateMediaXML = (media: MediaContent, artistName: string = '', categoryName: string = '', index: number): string => {
@@ -9,13 +9,13 @@ export const generateMediaXML = (media: MediaContent, artistName: string = '', c
   
   return `
   <item>
-    <title><![CDATA[${media.title}]]></title>
+    <title><![CDATA[${escapeXML(media.title)}]]></title>
     <link>https://bkotube.com/media/${postName}</link>
     <pubDate>${pubDate}</pubDate>
     <dc:creator><![CDATA[admin]]></dc:creator>
     <guid isPermaLink="false">https://bkotube.com/media/${postName}</guid>
     <description></description>
-    <content:encoded><![CDATA[${media.description || ''}]]></content:encoded>
+    <content:encoded><![CDATA[${escapeXML(media.description || '')}]]></content:encoded>
     <excerpt:encoded><![CDATA[]]></excerpt:encoded>
     <wp:post_id>${index + 2000}</wp:post_id>
     <wp:post_date><![CDATA[${new Date(media.created_at).toISOString().split('T')[0]}]]></wp:post_date>
@@ -37,11 +37,11 @@ export const generateMediaXML = (media: MediaContent, artistName: string = '', c
     </wp:postmeta>
     <wp:postmeta>
       <wp:meta_key><![CDATA[_artist]]></wp:meta_key>
-      <wp:meta_value><![CDATA[${artistName}]]></wp:meta_value>
+      <wp:meta_value><![CDATA[${escapeXML(artistName)}]]></wp:meta_value>
     </wp:postmeta>
     <wp:postmeta>
       <wp:meta_key><![CDATA[_category]]></wp:meta_key>
-      <wp:meta_value><![CDATA[${categoryName}]]></wp:meta_value>
+      <wp:meta_value><![CDATA[${escapeXML(categoryName)}]]></wp:meta_value>
     </wp:postmeta>
     <wp:postmeta>
       <wp:meta_key><![CDATA[_media_url]]></wp:meta_key>

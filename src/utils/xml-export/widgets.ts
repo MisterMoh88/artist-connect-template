@@ -1,4 +1,6 @@
 
+import { escapeXML } from './helpers';
+
 // Générer les widgets
 export const generateWidgetsXML = (): string => {
   const widgets = {

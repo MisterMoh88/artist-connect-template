@@ -1,6 +1,6 @@
 
 import { Artist } from '@/types/supabase-custom';
-import { generateSlug } from './helpers';
+import { escapeXML, generateSlug } from './helpers';
 
 // Générer le XML pour un artiste
 export const generateArtistXML = (artist: Artist, index: number): string => {
@@ -17,13 +17,13 @@ export const generateArtistXML = (artist: Artist, index: number): string => {
   
   return `
   <item>
-    <title><![CDATA[${artist.name}]]></title>
+    <title><![CDATA[${escapeXML(artist.name)}]]></title>
     <link>https://bkotube.com/artiste/${postName}</link>
     <pubDate>${pubDate}</pubDate>
     <dc:creator><![CDATA[admin]]></dc:creator>
     <guid isPermaLink="false">https://bkotube.com/artiste/${postName}</guid>
     <description></description>
-    <content:encoded><![CDATA[${artist.bio || ''}]]></content:encoded>
+    <content:encoded><![CDATA[${escapeXML(artist.bio || '')}]]></content:encoded>
     <excerpt:encoded><![CDATA[]]></excerpt:encoded>
     <wp:post_id>${index + 1000}</wp:post_id>
     <wp:post_date><![CDATA[${new Date(artist.created_at).toISOString().split('T')[0]}]]></wp:post_date>

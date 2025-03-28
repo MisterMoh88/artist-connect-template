@@ -1,4 +1,6 @@
 
+import { escapeXML } from './helpers';
+
 // Générer les informations d'installation du thème
 export const generateThemeInstallationXML = (): string => {
   const themeContent = {
@@ -56,12 +58,31 @@ export const generateCustomPostTypesXML = (): string => {
     }
   ];
   
-  return `
+  // Ajouter la définition des post_types directement
+  let postTypeXML = `
   <wp:option>
     <wp:option_name>cptui_post_types</wp:option_name>
     <wp:option_value><![CDATA[${JSON.stringify(customPostTypes)}]]></wp:option_value>
     <wp:autoload>yes</wp:autoload>
   </wp:option>`;
+  
+  // Ajouter des déclarations explicites de post type
+  postTypeXML += `
+  <!-- Déclaration explicite des post types -->
+  <wp:post_type>
+    <wp:post_type_id>artiste</wp:post_type_id>
+    <wp:post_type_name><![CDATA[artiste]]></wp:post_type_name>
+    <wp:post_type_label><![CDATA[Artistes]]></wp:post_type_label>
+    <wp:post_type_singular_label><![CDATA[Artiste]]></wp:post_type_singular_label>
+  </wp:post_type>
+  <wp:post_type>
+    <wp:post_type_id>media</wp:post_type_id>
+    <wp:post_type_name><![CDATA[media]]></wp:post_type_name>
+    <wp:post_type_label><![CDATA[Médias]]></wp:post_type_label>
+    <wp:post_type_singular_label><![CDATA[Média]]></wp:post_type_singular_label>
+  </wp:post_type>`;
+  
+  return postTypeXML;
 };
 
 // Générer les champs personnalisés ACF
