@@ -120,7 +120,7 @@ const generateWPVividConfig = (backupStructure: any) => {
     backup_id: backupStructure.backupId,
     local_path: "/wp-content/wpvividbackups/",
     remote_path: "",
-    remote_options": null,
+    remote_options: null,
     backup_create_time: Math.floor(Date.now() / 1000)
   };
 };
