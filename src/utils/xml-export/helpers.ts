@@ -16,6 +16,7 @@ export const escapeXML = (text: string | null | undefined): string => {
 export const generateSlug = (text: string): string => {
   return text
     .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Enlever les accents
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
 };
@@ -57,10 +58,19 @@ export const generateWordPressUserInfo = () => {
 
 // Génère un UUID format WPVivid
 export const generateWPVividUUID = () => {
-  const timestamp = Date.now().toString(16);
-  const randomPart = Math.random().toString(16).substr(2, 8);
-  return `wpvivid-${timestamp}-${randomPart}`;
+  // Format exactement comme WPVivid le fait
+  return `${randomString(8)}-${randomString(4)}-${randomString(4)}-${randomString(4)}-${randomString(12)}`;
 };
+
+// Fonction pour générer une chaîne aléatoire (utilisée pour l'UUID)
+function randomString(length: number): string {
+  const chars = '0123456789abcdef';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
 
 // Génère la date au format WPVivid (YYYY-MM-DD-HHIISS)
 export const getWPVividFormattedDate = () => {
@@ -73,4 +83,9 @@ export const getWPVividFormattedDate = () => {
   const seconds = String(now.getSeconds()).padStart(2, '0');
   
   return `${year}-${month}-${day}-${hours}${minutes}${seconds}`;
+};
+
+// Encodage Base64 pour les fichiers binaires (utilisé pour les images)
+export const encodeBase64 = (str: string): string => {
+  return btoa(unescape(encodeURIComponent(str)));
 };

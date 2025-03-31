@@ -46,12 +46,13 @@ const generateWPVividManifest = (backupStructure: any) => {
   const timestamp = Math.floor(Date.now() / 1000);
   const userInfo = generateWordPressUserInfo();
   
+  // Format exact du manifest WPVivid
   return {
     plugin_name: 'wpvivid-backuprestore',
     plugin_version: '0.9.76',
     create_time: timestamp,
     backup_version: '1.0',
-    backup_type: 'Migration',
+    backup_type: 'Manual',  // "Manual" est le type par défaut de WPVivid
     domain: 'bkotube.com',
     home_url: 'https://bkotube.com',
     site_url: 'https://bkotube.com',
@@ -86,6 +87,8 @@ const generateWPVividManifest = (backupStructure: any) => {
       db_name: "wordpress",
       prefix: "wp_"
     },
+    exclude_tables: [],  // Tables à exclure
+    include_tables: ["wp_posts", "wp_terms"],  // Tables à inclure
     default_theme: "bkotube-theme",
     themes: ["bkotube-theme"],
     plugins: [
@@ -94,7 +97,8 @@ const generateWPVividManifest = (backupStructure: any) => {
       "custom-post-type-ui",
       "elementor",
       "seo-by-rank-math",
-      "wp-media-category-management"
+      "wp-media-category-management",
+      "wpvivid-backuprestore"  // S'assurer que le plugin WPVivid lui-même est inclus
     ],
     wpvivid_plugin: "wpvivid-backuprestore",
     wpvivid_version: "0.9.76"
@@ -103,7 +107,13 @@ const generateWPVividManifest = (backupStructure: any) => {
 
 // Générer la configuration WPVivid
 const generateWPVividConfig = (backupStructure: any) => {
+  // Format exact du fichier de configuration WPVivid
   return {
+    type: "Manual",  // Correspond au type dans le manifest
+    upload: {
+      folder: "uploads/" + new Date().getFullYear() + "/" + String(new Date().getMonth() + 1).padStart(2, '0'),
+      prefix: ""
+    },
     compress_type: "zip",
     backup_type: "Migration",
     backup_files: {
@@ -113,9 +123,12 @@ const generateWPVividConfig = (backupStructure: any) => {
       wp_content: true,
       core: false,
       database: true,
+      others: false
     },
-    custom_dirs: [],
-    exclude_files: [],
+    exclude_files: [],  // Fichiers/dossiers à exclure
+    custom_dirs: [],    // Dossiers personnalisés à inclure
+    exclude_tables: [], // Tables à exclure
+    include_tables: ["wp_posts", "wp_terms"], // Tables à inclure
     backup_prefix: "wpvivid",
     backup_id: backupStructure.backupId,
     local_path: "/wp-content/wpvividbackups/",
@@ -126,14 +139,27 @@ const generateWPVividConfig = (backupStructure: any) => {
 };
 
 // Générer le fichier log WPVivid
-const generateWPVividLog = () => {
+const generateWPVividLog = (backupStructure: any) => {
   const now = new Date();
-  return `[${now.toISOString()}] BkoTube WPVivid Backup Export
-[${now.toISOString()}] Backup started
-[${now.toISOString()}] Database backup created
-[${now.toISOString()}] Theme files backed up: bkotube-theme
-[${now.toISOString()}] Plugin files backed up
-[${now.toISOString()}] Backup completed successfully
+  // Format exact du fichier log de WPVivid
+  return `
+[${now.toISOString()}] BkoTube WPVivid Backup v0.9.76
+[${now.toISOString()}] System Information:
+[${now.toISOString()}] PHP Version: 8.0, WORDPRESS Version: 6.4.3
+[${now.toISOString()}] Memory Limit: 256M, Memory Usage: 64M, Memory Peak Usage: 72M
+[${now.toISOString()}] Backup Task Start:
+[${now.toISOString()}] Backup ID: ${backupStructure.backupId}
+[${now.toISOString()}] Preparing to backup database.
+[${now.toISOString()}] Start exporting database.
+[${now.toISOString()}] Exporting table wp_posts
+[${now.toISOString()}] Exporting table wp_terms
+[${now.toISOString()}] Exported tables size: 51.2 KB
+[${now.toISOString()}] Database dump file size: 51.2 KB
+[${now.toISOString()}] Adding database dump to zip archive.
+[${now.toISOString()}] Compressing themes directory.
+[${now.toISOString()}] Compressing plugins directory.
+[${now.toISOString()}] Creating backup successfully completed.
+[${now.toISOString()}] Backup task completed.
 `;
 };
 
@@ -155,10 +181,15 @@ const generateWPVividDatabase = (artists: Artist[], mediaContents: MediaContent[
     ""
   ];
 
+  // Format de CREATE DATABASE conforme à WPVivid
+  sql.push("CREATE DATABASE IF NOT EXISTS `wordpress` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
+  sql.push("USE `wordpress`;");
+  
   // Ajouter les créations de tables
   sql.push(`
 -- Table structure for table \`wp_posts\`
-CREATE TABLE IF NOT EXISTS \`wp_posts\` (
+DROP TABLE IF EXISTS \`wp_posts\`;
+CREATE TABLE \`wp_posts\` (
   \`ID\` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   \`post_author\` bigint(20) unsigned NOT NULL DEFAULT 0,
   \`post_date\` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -219,7 +250,8 @@ VALUES (${id}, 1, '${postDate}', '${postDate}', '${escapeXML(media.description |
   // Structure de la table des catégories
   sql.push(`
 -- Table structure for table \`wp_terms\`
-CREATE TABLE IF NOT EXISTS \`wp_terms\` (
+DROP TABLE IF EXISTS \`wp_terms\`;
+CREATE TABLE \`wp_terms\` (
   \`term_id\` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   \`name\` varchar(200) NOT NULL DEFAULT '',
   \`slug\` varchar(200) NOT NULL DEFAULT '',
@@ -588,7 +620,7 @@ export const generateWPVividBackup = async (
     // Générer les fichiers de configuration WPVivid
     const manifestContent = generateWPVividManifest(backupStructure);
     const configContent = generateWPVividConfig(backupStructure);
-    const logContent = generateWPVividLog();
+    const logContent = generateWPVividLog(backupStructure);
     
     // Générer le fichier SQL de la base de données
     const dbContent = generateWPVividDatabase(artists, mediaContents, categories);
@@ -665,24 +697,30 @@ const createWPVividZIP = async (
   files: { name: string, content: string, type: string }[],
   archiveName: string
 ): Promise<void> => {
-  // Dynamically import JSZip only when needed
-  const JSZip = (await import('jszip')).default;
-  const zip = new JSZip();
-  
-  // Ajouter les fichiers à l'archive
-  for (const file of files) {
-    zip.file(file.name, file.content);
-  }
-  
-  // Générer l'archive ZIP
-  const content = await zip.generateAsync({ 
-    type: 'blob',
-    compression: 'DEFLATE',
-    compressionOptions: {
-      level: 9
+  try {
+    // Dynamically import JSZip only when needed
+    const JSZip = (await import('jszip')).default;
+    const zip = new JSZip();
+    
+    // Ajouter les fichiers à l'archive
+    for (const file of files) {
+      zip.file(file.name, file.content);
     }
-  });
-  
-  // Déclencher le téléchargement
-  downloadFile(content, `${archiveName}.zip`, 'application/zip');
+    
+    // Générer l'archive ZIP avec des paramètres optimisés
+    const content = await zip.generateAsync({ 
+      type: 'blob',
+      compression: 'DEFLATE',
+      compressionOptions: {
+        level: 5  // Un niveau plus modéré pour éviter la corruption
+      },
+      comment: `WPVivid Backup Archive created by BkoTube Export Tool - ${new Date().toISOString()}`
+    });
+    
+    // Déclencher le téléchargement
+    downloadFile(content, `${archiveName}.zip`, 'application/zip');
+  } catch (error) {
+    console.error('Erreur lors de la création du fichier ZIP:', error);
+    throw error;
+  }
 };
