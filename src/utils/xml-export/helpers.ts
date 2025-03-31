@@ -20,10 +20,9 @@ export const generateSlug = (text: string): string => {
     .replace(/(^-|-$)/g, '');
 };
 
-// Fonction pour déclencher le téléchargement du fichier XML
-export const downloadXMLFile = (xml: string, filename = 'bkotube-export.xml'): void => {
-  const blob = new Blob([xml], { type: 'application/xml' });
-  const url = URL.createObjectURL(blob);
+// Fonction pour déclencher le téléchargement d'un fichier (générique)
+export const downloadFile = (content: Blob, filename: string, contentType: string): void => {
+  const url = URL.createObjectURL(content);
   
   const a = document.createElement('a');
   a.href = url;
@@ -36,4 +35,10 @@ export const downloadXMLFile = (xml: string, filename = 'bkotube-export.xml'): v
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }, 100);
+};
+
+// Fonction pour télécharger un fichier XML (spécifique aux exports XML)
+export const downloadXMLFile = (xml: string, filename = 'bkotube-export.xml'): void => {
+  const blob = new Blob([xml], { type: 'application/xml' });
+  downloadFile(blob, filename, 'application/xml');
 };
