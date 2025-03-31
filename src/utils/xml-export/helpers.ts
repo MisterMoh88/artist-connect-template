@@ -42,3 +42,15 @@ export const downloadXMLFile = (xml: string, filename = 'bkotube-export.xml'): v
   const blob = new Blob([xml], { type: 'application/xml' });
   downloadFile(blob, filename, 'application/xml');
 };
+
+// Fonction pour générer les informations d'utilisateur WordPress
+export const generateWordPressUserInfo = () => {
+  return {
+    admin_username: 'Admin',
+    admin_password: 'Bkotube@2025',
+    admin_email: 'admin@bkotube.com',
+    first_name: 'Admin',
+    last_name: 'BkoTube',
+    role: 'administrator'
+  };
+};
