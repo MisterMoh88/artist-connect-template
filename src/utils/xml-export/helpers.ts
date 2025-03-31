@@ -54,3 +54,23 @@ export const generateWordPressUserInfo = () => {
     role: 'administrator'
   };
 };
+
+// Génère un UUID format WPVivid
+export const generateWPVividUUID = () => {
+  const timestamp = Date.now().toString(16);
+  const randomPart = Math.random().toString(16).substr(2, 8);
+  return `wpvivid-${timestamp}-${randomPart}`;
+};
+
+// Génère la date au format WPVivid (YYYY-MM-DD-HHIISS)
+export const getWPVividFormattedDate = () => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}-${hours}${minutes}${seconds}`;
+};
