@@ -56,10 +56,10 @@ export const generateWordPressUserInfo = () => {
   };
 };
 
-// Génère un UUID format WPVivid
+// Génère un UUID format WPVivid - modifié pour correspondre au format réel
 export const generateWPVividUUID = () => {
-  // Format exactement comme WPVivid le fait
-  return `${randomString(8)}-${randomString(4)}-${randomString(4)}-${randomString(4)}-${randomString(12)}`;
+  // Format: 6 caractères hexadécimaux
+  return randomString(6);
 };
 
 // Fonction pour générer une chaîne aléatoire (utilisée pour l'UUID)
@@ -72,7 +72,7 @@ function randomString(length: number): string {
   return result;
 }
 
-// Génère la date au format WPVivid (YYYY-MM-DD-HHIISS)
+// Génère la date au format WPVivid (YYYY-MM-DD-HH-II-SS)
 export const getWPVividFormattedDate = () => {
   const now = new Date();
   const year = now.getFullYear();
@@ -82,7 +82,7 @@ export const getWPVividFormattedDate = () => {
   const minutes = String(now.getMinutes()).padStart(2, '0');
   const seconds = String(now.getSeconds()).padStart(2, '0');
   
-  return `${year}-${month}-${day}-${hours}${minutes}${seconds}`;
+  return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}`;
 };
 
 // Encodage Base64 pour les fichiers binaires (utilisé pour les images)
