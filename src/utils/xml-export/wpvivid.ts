@@ -61,12 +61,12 @@ const generateWPVividPackageInfo = (backupStructure: any) => {
       content: true,
       database: true
     },
-    files": {
-      "themes": `${backupStructure.zipFiles.themes}`,
-      "plugins": `${backupStructure.zipFiles.plugin}`,
-      "uploads": `${backupStructure.zipFiles.uploads}`,
-      "content": `${backupStructure.zipFiles.content}`,
-      "db": `${backupStructure.zipFiles.db}`
+    files: {
+      themes: `${backupStructure.zipFiles.themes}`,
+      plugins: `${backupStructure.zipFiles.plugin}`,
+      uploads: `${backupStructure.zipFiles.uploads}`,
+      content: `${backupStructure.zipFiles.content}`,
+      db: `${backupStructure.zipFiles.db}`
     }
   };
 };
