@@ -20,6 +20,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import ArtistesAdmin from "./pages/admin/ArtistesAdmin";
 import SiteSettings from "./pages/admin/SiteSettings";
 import CategoriesAdmin from "./pages/admin/CategoriesAdmin";
+import FeaturedItemsAdmin from "./pages/admin/FeaturedItemsAdmin";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,14 @@ const App = () => (
             element={
               <AuthGuard requireAdmin={true}>
                 <CategoriesAdmin />
+              </AuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/a-la-une" 
+            element={
+              <AuthGuard requireAdmin={true}>
+                <FeaturedItemsAdmin />
               </AuthGuard>
             } 
           />

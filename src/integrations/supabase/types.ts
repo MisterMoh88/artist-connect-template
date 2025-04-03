@@ -69,6 +69,48 @@ export type Database = {
         }
         Relationships: []
       }
+      featured_items: {
+        Row: {
+          artist: string
+          cover_image: string
+          created_at: string
+          duration: string | null
+          id: string
+          likes: number | null
+          link: string
+          release_date: string
+          title: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          artist: string
+          cover_image: string
+          created_at?: string
+          duration?: string | null
+          id?: string
+          likes?: number | null
+          link: string
+          release_date: string
+          title: string
+          type: string
+          updated_at?: string
+        }
+        Update: {
+          artist?: string
+          cover_image?: string
+          created_at?: string
+          duration?: string | null
+          id?: string
+          likes?: number | null
+          link?: string
+          release_date?: string
+          title?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       media_contents: {
         Row: {
           artist_id: string

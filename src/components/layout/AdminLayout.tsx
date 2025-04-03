@@ -12,7 +12,8 @@ import {
   Menu, 
   X, 
   HomeIcon,
-  ChevronDown
+  ChevronDown,
+  Image
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -116,6 +117,20 @@ const AdminLayout = ({ children }: AdminLayoutProps) => {
           >
             <Grid className="mr-3 h-5 w-5" />
             <span>Catégories</span>
+          </NavLink>
+
+          <NavLink
+            to="/admin/a-la-une"
+            className={({ isActive }) =>
+              `flex items-center px-3 py-2 rounded-md transition-colors ${
+                isActive 
+                  ? 'bg-brand-100 text-brand-900' 
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`
+            }
+          >
+            <Image className="mr-3 h-5 w-5" />
+            <span>À la Une</span>
           </NavLink>
 
           <NavLink

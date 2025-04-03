@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,6 +13,7 @@ import { useSiteSettings } from '@/hooks/useSiteSettings';
 import { updateSiteSetting, SiteInfo, HeroSection, FeaturedSection, FeaturesSection, TestimonialsSection, CtaSection } from '@/services/siteSettings';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { Loader2 } from 'lucide-react';
+import ImageUpload from '@/components/ui/image-upload';
 
 const siteInfoSchema = z.object({
   name: z.string().min(2, 'Le nom du site doit contenir au moins 2 caractères'),
@@ -55,7 +55,7 @@ const ctaSectionSchema = z.object({
 });
 
 const SiteSettingsPage = () => {
-  const { settings, isLoading } = useSiteSettings();
+  const { settings, isLoading, uploadLogo } = useSiteSettings();
   const { toast } = useToast();
 
   const siteInfoForm = useForm<SiteInfo>({
@@ -115,7 +115,6 @@ const SiteSettingsPage = () => {
     },
   });
 
-  // Mettre à jour les formulaires lorsque les paramètres sont chargés
   useEffect(() => {
     if (settings) {
       siteInfoForm.reset(settings.site_info);
@@ -149,6 +148,19 @@ const SiteSettingsPage = () => {
         variant: 'destructive',
         title: 'Erreur',
         description: 'Une erreur est survenue lors de la mise à jour des informations du site.',
+      });
+    }
+  };
+
+  const handleLogoUpload = async (file: File) => {
+    try {
+      await uploadLogo(file);
+    } catch (error) {
+      console.error('Erreur lors du téléchargement du logo:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Erreur',
+        description: 'Une erreur est survenue lors du téléchargement du logo.',
       });
     }
   };
@@ -354,20 +366,16 @@ const SiteSettingsPage = () => {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={siteInfoForm.control}
-                      name="logo_url"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>URL du logo</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormDescription>L'URL de l'image du logo.</FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div>
+                      <FormLabel>Logo du site</FormLabel>
+                      <FormDescription className="mb-3">Téléchargez le logo qui apparaîtra dans l'en-tête et le pied de page.</FormDescription>
+                      <ImageUpload 
+                        value={settings?.site_info.logo_url || ''} 
+                        onChange={handleLogoUpload}
+                        maxWidth={200}
+                        maxHeight={100}
+                      />
+                    </div>
                   </CardContent>
                   <CardFooter>
                     <Button type="submit">Enregistrer</Button>
