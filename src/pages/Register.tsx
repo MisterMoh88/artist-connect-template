@@ -4,12 +4,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Link, useNavigate } from 'react-router-dom';
-import { Music, Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Music, Mail, Lock, Eye, EyeOff, User, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
-const Login = () => {
+const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -21,36 +22,29 @@ const Login = () => {
     setIsLoading(true);
     
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            full_name: fullName,
+          },
+        },
       });
       
       if (error) {
         toast({
-          title: "Échec de connexion",
+          title: "Échec de l'inscription",
           description: error.message,
           variant: "destructive",
         });
       } else {
         toast({
-          title: "Connexion réussie",
-          description: "Vous êtes maintenant connecté",
+          title: "Inscription réussie",
+          description: "Votre compte a été créé avec succès",
           variant: "default",
         });
-        
-        // Vérifier si l'utilisateur est admin pour rediriger vers l'admin
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', data.session?.user.id)
-          .single();
-          
-        if (profileData?.role === 'admin') {
-          navigate('/admin');
-        } else {
-          navigate('/');
-        }
+        navigate('/login');
       }
     } catch (error) {
       toast({
@@ -72,14 +66,34 @@ const Login = () => {
               <Music size={28} className="text-brand-600" />
               <span className="font-bold text-2xl tracking-tight">BkoTube</span>
             </Link>
-            <h2 className="text-2xl font-bold">Connexion à votre espace</h2>
+            <h2 className="text-2xl font-bold">Créer un compte</h2>
             <p className="text-muted-foreground mt-2">
-              Accédez à votre plateforme de gestion artistique
+              Rejoignez la plateforme de gestion artistique
             </p>
           </div>
           
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="fullName" className="block text-sm font-medium">
+                  Nom complet
+                </Label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Input 
+                    id="fullName" 
+                    name="fullName" 
+                    type="text" 
+                    autoComplete="name" 
+                    required 
+                    placeholder="Votre nom complet"
+                    className="pl-10"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
+                </div>
+              </div>
+              
               <div className="space-y-2">
                 <Label htmlFor="email" className="block text-sm font-medium">
                   Adresse email
@@ -101,21 +115,16 @@ const Login = () => {
               </div>
               
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className="block text-sm font-medium">
-                    Mot de passe
-                  </Label>
-                  <Link to="/forgot-password" className="text-sm text-brand-600 hover:underline">
-                    Mot de passe oublié ?
-                  </Link>
-                </div>
+                <Label htmlFor="password" className="block text-sm font-medium">
+                  Mot de passe
+                </Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input 
                     id="password" 
                     name="password" 
                     type={showPassword ? "text" : "password"} 
-                    autoComplete="current-password" 
+                    autoComplete="new-password" 
                     required 
                     placeholder="••••••••"
                     className="pl-10"
@@ -134,20 +143,9 @@ const Login = () => {
                     )}
                   </button>
                 </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
-                />
-                <Label htmlFor="remember-me" className="ml-2 block text-sm">
-                  Se souvenir de moi
-                </Label>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Le mot de passe doit contenir au moins 8 caractères
+                </p>
               </div>
             </div>
             
@@ -156,10 +154,10 @@ const Login = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Connexion en cours...
+                    Inscription en cours...
                   </>
                 ) : (
-                  "Se connecter"
+                  "S'inscrire"
                 )}
               </Button>
             </div>
@@ -167,9 +165,9 @@ const Login = () => {
           
           <div className="text-center mt-6">
             <p className="text-sm text-muted-foreground">
-              Vous n'avez pas encore de compte ?{" "}
-              <Link to="/register" className="text-brand-600 hover:underline">
-                Créer un compte
+              Vous avez déjà un compte ?{" "}
+              <Link to="/login" className="text-brand-600 hover:underline">
+                Se connecter
               </Link>
             </p>
           </div>
@@ -185,4 +183,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
