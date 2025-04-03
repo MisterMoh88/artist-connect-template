@@ -18,6 +18,8 @@ import { AuthProvider } from "./contexts/AuthContext";
 import AuthGuard from "./components/AuthGuard";
 import Dashboard from "./pages/admin/Dashboard";
 import ArtistesAdmin from "./pages/admin/ArtistesAdmin";
+import SiteSettings from "./pages/admin/SiteSettings";
+import CategoriesAdmin from "./pages/admin/CategoriesAdmin";
 
 const queryClient = new QueryClient();
 
@@ -53,6 +55,22 @@ const App = () => (
             element={
               <AuthGuard requireAdmin={true}>
                 <ArtistesAdmin />
+              </AuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/parametres" 
+            element={
+              <AuthGuard requireAdmin={true}>
+                <SiteSettings />
+              </AuthGuard>
+            } 
+          />
+          <Route 
+            path="/admin/categories" 
+            element={
+              <AuthGuard requireAdmin={true}>
+                <CategoriesAdmin />
               </AuthGuard>
             } 
           />
