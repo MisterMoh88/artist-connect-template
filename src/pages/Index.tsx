@@ -22,6 +22,21 @@ const Index = () => {
     secondaryButtonLink: "/contact"
   };
 
+  const featuredProps = settings?.featured_section || {
+    title: "Artistes en vedette",
+    subtitle: "Découvrez les talents du moment"
+  };
+
+  const featuresProps = settings?.features_section || {
+    title: "Nos services",
+    subtitle: "Solutions digitales pour les artistes et labels"
+  };
+
+  const testimonialsProps = settings?.testimonials_section || {
+    title: "Ce que disent nos clients",
+    subtitle: "Témoignages d'artistes et de labels"
+  };
+
   const ctaProps = settings?.cta_section || {
     title: "Prêt à faire passer votre carrière au niveau supérieur ?",
     subtitle: "Rejoignez des centaines d'artistes qui font confiance à BkoTube pour leur communication digitale.",
@@ -43,11 +58,20 @@ const Index = () => {
         useCarousel={true}
       />
       
-      <FeaturedSection />
+      <FeaturedSection 
+        title={featuredProps.title}
+        subtitle={featuredProps.subtitle}
+      />
       
-      <FeaturesSection />
+      <FeaturesSection 
+        title={featuresProps.title}
+        subtitle={featuresProps.subtitle}
+      />
       
-      <TestimonialsSection />
+      <TestimonialsSection 
+        title={testimonialsProps.title}
+        subtitle={testimonialsProps.subtitle}
+      />
       
       <PricingSection />
       

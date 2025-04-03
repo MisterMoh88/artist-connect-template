@@ -49,21 +49,19 @@ export type SiteSettings = {
   cta_section: CtaSection;
 };
 
-export async function getSiteSettings(): Promise<SiteSettings | null> {
+export async function getSiteSettings(): Promise<SiteSettings> {
   try {
-    const settings: Record<string, any> = {};
-    
-    // Récupérer tous les paramètres du site
     const { data, error } = await supabase
       .from('site_settings')
       .select('*');
     
     if (error) {
       console.error('Erreur lors de la récupération des paramètres du site:', error);
-      return null;
+      throw error;
     }
     
     // Convertir le tableau de résultats en un objet
+    const settings: Record<string, any> = {};
     data.forEach((item) => {
       settings[item.key] = item.value;
     });
@@ -71,11 +69,11 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     return settings as SiteSettings;
   } catch (error) {
     console.error('Erreur inattendue:', error);
-    return null;
+    throw error;
   }
 }
 
-export async function getSiteSetting(key: string): Promise<any | null> {
+export async function getSiteSetting(key: string): Promise<any> {
   try {
     const { data, error } = await supabase
       .from('site_settings')
@@ -85,13 +83,13 @@ export async function getSiteSetting(key: string): Promise<any | null> {
     
     if (error) {
       console.error(`Erreur lors de la récupération du paramètre ${key}:`, error);
-      return null;
+      throw error;
     }
     
     return data.value;
   } catch (error) {
     console.error('Erreur inattendue:', error);
-    return null;
+    throw error;
   }
 }
 
