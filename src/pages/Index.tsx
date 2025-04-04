@@ -72,10 +72,7 @@ const Index = () => {
         subtitle={featuredProps.subtitle}
       />
       
-      <FeaturesSection 
-        title={featuresProps.title}
-        subtitle={featuresProps.subtitle}
-      />
+      <FeaturesSection />
       
       <TestimonialsSection 
         title={testimonialsProps.title}

@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
   title: string;
+  description?: string;
   subtitle?: string;
   badge?: string;
   centered?: boolean;
@@ -11,6 +12,7 @@ interface SectionHeadingProps {
 
 const SectionHeading = ({
   title,
+  description,
   subtitle,
   badge,
   centered = false,
@@ -32,9 +34,9 @@ const SectionHeading = ({
       <h2 className="text-3xl md:text-4xl font-bold tracking-tight animated-element">
         {title}
       </h2>
-      {subtitle && (
+      {(description || subtitle) && (
         <p className="text-muted-foreground max-w-3xl animated-element">
-          {subtitle}
+          {description || subtitle}
         </p>
       )}
     </div>

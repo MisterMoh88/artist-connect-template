@@ -2,7 +2,7 @@
 import { useQuery } from '@tanstack/react-query';
 import FeaturedMediaContent from './FeaturedMediaContent';
 import { getFeaturedItems } from '@/services/featuredItemsService';
-import { SectionHeading } from '@/components/ui/section-heading';
+import SectionHeading from '@/components/ui/section-heading';
 
 interface FeaturedSectionProps {
   title: string;
@@ -47,14 +47,7 @@ const FeaturedSection = ({ title, subtitle }: FeaturedSectionProps) => {
             featuredItems.map((item) => (
               <FeaturedMediaContent 
                 key={item.id}
-                title={item.title}
-                artist={item.artist}
-                coverImage={item.cover_image}
-                type={item.type}
-                link={item.link}
-                releaseDate={item.release_date}
-                duration={item.duration}
-                likes={item.likes}
+                item={item}
               />
             ))
           )}
