@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import AdminLayout from '@/components/layout/AdminLayout';
@@ -152,10 +151,31 @@ const ArtistesAdmin = () => {
           description: 'L\'artiste a été mis à jour avec succès.',
         });
       } else {
-        // Création
+        // Création - Make sure required fields are provided
+        if (!formData.name || !formData.email) {
+          toast({
+            title: 'Erreur',
+            description: 'Le nom et l\'email sont requis.',
+            variant: 'destructive',
+          });
+          return;
+        }
+
+        // Ensure we have the required fields with their correct types
+        const artistToInsert = {
+          name: formData.name,
+          email: formData.email,
+          bio: formData.bio || null,
+          social_instagram: formData.social_instagram || null,
+          social_facebook: formData.social_facebook || null,
+          social_youtube: formData.social_youtube || null,
+          social_spotify: formData.social_spotify || null,
+          image_url: formData.image_url || null
+        };
+        
         const { error } = await supabase
           .from('artists')
-          .insert([formData]);
+          .insert([artistToInsert]);
         
         if (error) throw error;
         
@@ -328,7 +348,7 @@ const ArtistesAdmin = () => {
                   <Input
                     id="name"
                     name="name"
-                    value={formData.name}
+                    value={formData.name || ''}
                     onChange={handleInputChange}
                     required
                   />
@@ -339,7 +359,7 @@ const ArtistesAdmin = () => {
                     id="email"
                     name="email"
                     type="email"
-                    value={formData.email}
+                    value={formData.email || ''}
                     onChange={handleInputChange}
                     required
                   />
