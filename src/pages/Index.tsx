@@ -19,7 +19,8 @@ const Index = () => {
     buttonText: "Découvrir nos services",
     secondaryButtonText: "Contacter un expert",
     buttonLink: "/services",
-    secondaryButtonLink: "/contact"
+    secondaryButtonLink: "/contact",
+    images: []
   };
 
   const featuredProps = settings?.featured_section || {
@@ -34,7 +35,14 @@ const Index = () => {
 
   const testimonialsProps = settings?.testimonials_section || {
     title: "Ce que disent nos clients",
-    subtitle: "Témoignages d'artistes et de labels"
+    subtitle: "Témoignages d'artistes et de labels",
+    testimonials: []
+  };
+
+  const pricingProps = settings?.pricing_section || {
+    title: "Offres adaptées à chaque étape de votre carrière",
+    subtitle: "Des forfaits flexibles qui évoluent avec votre succès",
+    plans: []
   };
 
   const ctaProps = settings?.cta_section || {
@@ -56,6 +64,7 @@ const Index = () => {
         buttonLink={heroProps.buttonLink}
         secondaryButtonLink={heroProps.secondaryButtonLink}
         useCarousel={true}
+        carouselImages={heroProps.images || []}
       />
       
       <FeaturedSection 
@@ -71,9 +80,14 @@ const Index = () => {
       <TestimonialsSection 
         title={testimonialsProps.title}
         subtitle={testimonialsProps.subtitle}
+        testimonials={testimonialsProps.testimonials}
       />
       
-      <PricingSection />
+      <PricingSection 
+        title={pricingProps.title}
+        subtitle={pricingProps.subtitle}
+        plans={pricingProps.plans}
+      />
       
       <CtaSection 
         title={ctaProps.title}

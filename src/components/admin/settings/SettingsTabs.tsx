@@ -6,6 +6,8 @@ import SiteInfoForm from './SiteInfoForm';
 import HeroSectionForm from './HeroSectionForm';
 import SectionTitleForm from './SectionTitleForm';
 import CTASectionForm from './CTASectionForm';
+import TestimonialsManagement from './TestimonialsManagement';
+import PricingManagement from './PricingManagement';
 
 interface SettingsTabsProps {
   settings: SiteSettings;
@@ -17,12 +19,13 @@ const SettingsTabs = ({ settings, uploadLogo }: SettingsTabsProps) => {
 
   return (
     <Tabs defaultValue="site-info" value={activeTab} onValueChange={setActiveTab}>
-      <TabsList className="mb-6">
+      <TabsList className="mb-6 flex flex-wrap">
         <TabsTrigger value="site-info">Informations du site</TabsTrigger>
         <TabsTrigger value="hero">Section Héro</TabsTrigger>
         <TabsTrigger value="featured">Section En vedette</TabsTrigger>
         <TabsTrigger value="features">Section Services</TabsTrigger>
         <TabsTrigger value="testimonials">Témoignages</TabsTrigger>
+        <TabsTrigger value="pricing">Tarifs</TabsTrigger>
         <TabsTrigger value="cta">Section CTA</TabsTrigger>
       </TabsList>
 
@@ -61,12 +64,12 @@ const SettingsTabs = ({ settings, uploadLogo }: SettingsTabsProps) => {
 
       {/* Testimonials Section */}
       <TabsContent value="testimonials">
-        <SectionTitleForm
-          initialData={settings.testimonials_section}
-          settingsKey="testimonials_section"
-          title="Section Témoignages"
-          description="Modifiez les titres de la section témoignages."
-        />
+        <TestimonialsManagement initialData={settings.testimonials_section} />
+      </TabsContent>
+      
+      {/* Pricing Section */}
+      <TabsContent value="pricing">
+        <PricingManagement initialData={settings.pricing_section} />
       </TabsContent>
 
       {/* CTA Section */}

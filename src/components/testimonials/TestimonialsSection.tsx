@@ -4,21 +4,26 @@ import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SectionHeading from '../ui/section-heading';
 import { cn } from '@/lib/utils';
+import { Testimonial } from '@/services/siteSettings';
 
-const testimonials = [
+// Fallback testimonials if none are provided
+const defaultTestimonials = [
   {
+    id: "1",
     content: "BkoTube a transformé ma présence en ligne. En moins de 3 mois, j'ai vu mon audience croître de 200% et mes revenus augmenter significativement.",
     author: "Marie Koné",
     role: "Chanteuse",
     image: "/images/testimonial-1.jpg"
   },
   {
+    id: "2",
     content: "Leur approche professionnelle et leur connaissance du marketing digital m'ont aidé à atteindre un public international que je n'aurais jamais pu toucher seul.",
     author: "Ibrahim Touré",
     role: "Producteur",
     image: "/images/testimonial-2.jpg"
   },
   {
+    id: "3",
     content: "L'équipe de BkoTube comprend vraiment les besoins des artistes. Leur gestion de mes réseaux sociaux m'a permis de me concentrer sur ma musique tout en développant ma communauté.",
     author: "Aminata Diallo",
     role: "Auteure-compositrice",
@@ -26,8 +31,23 @@ const testimonials = [
   }
 ];
 
-const TestimonialsSection = () => {
+interface TestimonialsSectionProps {
+  title: string;
+  subtitle: string;
+  testimonials?: Testimonial[];
+}
+
+const TestimonialsSection = ({ 
+  title, 
+  subtitle, 
+  testimonials: providedTestimonials 
+}: TestimonialsSectionProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  
+  // Use provided testimonials or default to the sample ones
+  const testimonials = providedTestimonials && providedTestimonials.length > 0 
+    ? providedTestimonials 
+    : defaultTestimonials;
   
   const nextTestimonial = () => {
     setActiveIndex((current) => (current + 1) % testimonials.length);
@@ -47,8 +67,8 @@ const TestimonialsSection = () => {
       
       <div className="container px-4 md:px-6 mx-auto relative z-10">
         <SectionHeading
-          title="Ce que disent nos clients"
-          subtitle="Découvrez comment nous avons aidé des artistes à développer leur présence en ligne et à réussir leur carrière."
+          title={title}
+          subtitle={subtitle}
           badge="Témoignages"
           centered
           className="text-white [&_p]:text-brand-100/80"
@@ -63,7 +83,7 @@ const TestimonialsSection = () => {
             <div className="relative bg-brand-800/30 backdrop-blur-sm border border-brand-700/40 rounded-2xl p-8 shadow-xl">
               {testimonials.map((testimonial, idx) => (
                 <div 
-                  key={idx}
+                  key={testimonial.id}
                   className={cn(
                     "transition-opacity duration-500 absolute inset-0 flex flex-col justify-between p-8",
                     idx === activeIndex ? "opacity-100 z-10" : "opacity-0 z-0"

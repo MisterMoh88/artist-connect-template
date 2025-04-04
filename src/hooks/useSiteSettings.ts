@@ -112,11 +112,34 @@ export function useSiteSettings() {
     }
   };
 
+  // Télécharger une image pour les sections
+  const uploadSectionImage = async (file: File, section: string, subfolder: string) => {
+    try {
+      setIsLoading(true);
+      
+      // Télécharger l'image
+      const imageUrl = await uploadFile(file, 'site-images', `${section}/${subfolder}`);
+      setIsLoading(false);
+      
+      return imageUrl;
+    } catch (err) {
+      console.error(`Erreur lors du téléchargement de l'image pour ${section}:`, err);
+      setIsLoading(false);
+      toast({
+        variant: 'destructive',
+        title: 'Erreur',
+        description: `Impossible de télécharger l'image pour ${section}`,
+      });
+      throw err;
+    }
+  };
+
   return { 
     settings, 
     isLoading, 
     error, 
     updateSetting,
-    uploadLogo
+    uploadLogo,
+    uploadSectionImage
   };
 }

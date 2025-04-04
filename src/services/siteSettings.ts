@@ -14,6 +14,13 @@ export type HeroSection = {
   secondaryButtonText: string;
   buttonLink: string;
   secondaryButtonLink: string;
+  images: HeroImage[];
+};
+
+export type HeroImage = {
+  id: string;
+  url: string;
+  alt: string;
 };
 
 export type FeaturedSection = {
@@ -29,6 +36,39 @@ export type FeaturesSection = {
 export type TestimonialsSection = {
   title: string;
   subtitle: string;
+  testimonials: Testimonial[];
+};
+
+export type Testimonial = {
+  id: string;
+  content: string;
+  author: string;
+  role: string;
+  image?: string;
+};
+
+export type PricingSection = {
+  title: string;
+  subtitle: string;
+  plans: PricingPlan[];
+};
+
+export type PricingPlan = {
+  id: string;
+  title: string;
+  description: string;
+  price: {
+    monthly: string;
+    annual: string;
+  };
+  popular?: boolean;
+  features: PricingFeature[];
+};
+
+export type PricingFeature = {
+  text: string;
+  included: boolean;
+  tooltip?: string;
 };
 
 export type CtaSection = {
@@ -46,6 +86,7 @@ export type SiteSettings = {
   featured_section: FeaturedSection;
   features_section: FeaturesSection;
   testimonials_section: TestimonialsSection;
+  pricing_section: PricingSection;
   cta_section: CtaSection;
 };
 
