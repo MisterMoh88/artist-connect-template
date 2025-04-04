@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ChevronRight, ArrowRight } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { HeroImage } from '@/services/siteSettings'; // Import the HeroImage type
 
 interface HeroSectionProps {
   title: string;
@@ -17,19 +18,23 @@ interface HeroSectionProps {
   showTrustedBy?: boolean;
   className?: string;
   useCarousel?: boolean;
+  carouselImages?: HeroImage[]; // Add this prop
 }
 
-const carouselImages = [
+const defaultCarouselImages = [
   {
-    src: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop",
+    id: "1",
+    url: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1200&auto=format&fit=crop",
     alt: "Artiste en studio"
   },
   {
-    src: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop",
+    id: "2",
+    url: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=1200&auto=format&fit=crop",
     alt: "Concert live"
   },
   {
-    src: "https://images.unsplash.com/photo-1598387846148-47e82ee120cc?q=80&w=1200&auto=format&fit=crop",
+    id: "3",
+    url: "https://images.unsplash.com/photo-1598387846148-47e82ee120cc?q=80&w=1200&auto=format&fit=crop",
     alt: "Production musicale"
   }
 ];
@@ -45,6 +50,7 @@ const HeroSection = ({
   showTrustedBy = true,
   className,
   useCarousel = false,
+  carouselImages = defaultCarouselImages,
 }: HeroSectionProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -117,10 +123,10 @@ const HeroSection = ({
               <Carousel className="w-full h-full">
                 <CarouselContent className="h-full">
                   {carouselImages.map((img, index) => (
-                    <CarouselItem key={index} className="h-full">
+                    <CarouselItem key={img.id || index} className="h-full">
                       <div className="h-full w-full relative overflow-hidden rounded-2xl">
                         <img
-                          src={img.src}
+                          src={img.url}
                           alt={img.alt}
                           className="object-cover w-full h-full rounded-2xl"
                         />

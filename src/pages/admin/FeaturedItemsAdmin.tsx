@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import AdminLayout from '@/components/layout/AdminLayout';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
@@ -154,7 +154,13 @@ const FeaturedItemsAdmin = () => {
       } else {
         // Mode création
         await createFeaturedItem({
-          ...data,
+          title: data.title,
+          artist: data.artist,
+          type: data.type,
+          link: data.link,
+          release_date: data.release_date,
+          duration: data.duration || '',
+          likes: data.likes || 0,
           cover_image: coverImageUrl,
         });
         
@@ -353,7 +359,9 @@ const FeaturedItemsAdmin = () => {
                           <FormControl>
                             <Input {...field} placeholder="3:45" />
                           </FormControl>
-                          <FormDescription>Format: minutes:secondes</FormDescription>
+                          <FormDescription>
+                            Format: minutes:secondes
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
@@ -387,7 +395,9 @@ const FeaturedItemsAdmin = () => {
                           <FormControl>
                             <Input {...field} placeholder="https://exemple.com/page" />
                           </FormControl>
-                          <FormDescription>URL vers laquelle l'utilisateur sera redirigé</FormDescription>
+                          <FormDescription>
+                            URL vers laquelle l'utilisateur sera redirigé
+                          </FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}

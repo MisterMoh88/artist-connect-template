@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -46,6 +46,11 @@ const featureSchema = z.object({
   tooltip: z.string().optional(),
 });
 
+// Extend the PricingFeature type to include an optional index property for UI operations
+interface FeatureWithIndex extends PricingFeature {
+  index?: number;
+}
+
 interface PricingManagementProps {
   initialData: PricingSection;
 }
@@ -56,7 +61,7 @@ const PricingManagement = ({ initialData }: PricingManagementProps) => {
   const [isEditingPlan, setIsEditingPlan] = useState(false);
   const [currentPlan, setCurrentPlan] = useState<PricingPlan | null>(null);
   const [isFeatureDialogOpen, setIsFeatureDialogOpen] = useState(false);
-  const [currentFeature, setCurrentFeature] = useState<PricingFeature | null>(null);
+  const [currentFeature, setCurrentFeature] = useState<FeatureWithIndex | null>(null);
   const [tempFeatures, setTempFeatures] = useState<PricingFeature[]>([]);
 
   const sectionForm = useForm<PricingSection>({
