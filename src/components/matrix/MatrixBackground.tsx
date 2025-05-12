@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 const MatrixBackground = () => {
-  const [columns, setColumns] = useState<{ id: number; left: string; duration: string; delay: string; characters: string }>([]);
+  const [columns, setColumns] = useState<Array<{ id: number; left: string; duration: string; delay: string; characters: string }>>([]);
 
   useEffect(() => {
     // Generate random characters for the matrix effect

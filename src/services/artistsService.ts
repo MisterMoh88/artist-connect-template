@@ -19,6 +19,8 @@ export const getArtists = async (): Promise<Artist[]> => {
 
 // Sample data in case the database is not set up
 export const getSampleArtists = async (): Promise<Artist[]> => {
+  const currentDate = new Date().toISOString();
+  
   return [
     {
       id: "1",
@@ -29,7 +31,8 @@ export const getSampleArtists = async (): Promise<Artist[]> => {
       social_instagram: "amadoumariam",
       social_facebook: "amadouandmariam",
       social_youtube: "amadouandmariam",
-      social_spotify: "spotify:artist:amadoumariam"
+      social_spotify: "spotify:artist:amadoumariam",
+      created_at: currentDate
     },
     {
       id: "2",
@@ -40,7 +43,8 @@ export const getSampleArtists = async (): Promise<Artist[]> => {
       social_instagram: "oumoufans",
       social_facebook: "oumoufans",
       social_youtube: null,
-      social_spotify: "spotify:artist:oumousangare"
+      social_spotify: "spotify:artist:oumousangare",
+      created_at: currentDate
     },
     {
       id: "3",
@@ -51,7 +55,8 @@ export const getSampleArtists = async (): Promise<Artist[]> => {
       social_instagram: "toumanidiabate",
       social_facebook: "toumanidiabate",
       social_youtube: "toumanidiabate",
-      social_spotify: "spotify:artist:toumanidiabate"
+      social_spotify: "spotify:artist:toumanidiabate",
+      created_at: currentDate
     },
     {
       id: "4",
@@ -62,7 +67,8 @@ export const getSampleArtists = async (): Promise<Artist[]> => {
       social_instagram: "vieuxfarka",
       social_facebook: "vieuxfarkatoure",
       social_youtube: "vieuxfarkatoure",
-      social_spotify: "spotify:artist:vieuxfarkatoure"
+      social_spotify: "spotify:artist:vieuxfarkatoure",
+      created_at: currentDate
     },
     {
       id: "5",
@@ -73,7 +79,8 @@ export const getSampleArtists = async (): Promise<Artist[]> => {
       social_instagram: "fatoumatadiawara",
       social_facebook: "fatoumatadiawara",
       social_youtube: "fatoumatadiawara",
-      social_spotify: "spotify:artist:fatoumatadiawara"
+      social_spotify: "spotify:artist:fatoumatadiawara",
+      created_at: currentDate
     },
     {
       id: "6",
@@ -84,7 +91,8 @@ export const getSampleArtists = async (): Promise<Artist[]> => {
       social_instagram: "rokiatraore",
       social_facebook: "rokiatraoremusic",
       social_youtube: "rokiatraore",
-      social_spotify: "spotify:artist:rokiatraore"
+      social_spotify: "spotify:artist:rokiatraore",
+      created_at: currentDate
     }
   ];
 };
