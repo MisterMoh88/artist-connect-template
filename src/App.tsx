@@ -11,9 +11,7 @@ import Artistes from "./pages/Artistes";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
-import Export from "./pages/Export";
 import { AuthProvider } from "./contexts/AuthContext";
 import AuthGuard from "./components/AuthGuard";
 import Dashboard from "./pages/admin/Dashboard";
@@ -39,8 +37,6 @@ const App = () => (
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/export" element={<Export />} />
           
           {/* Pages d'administration protégées */}
           <Route 

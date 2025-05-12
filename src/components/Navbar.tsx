@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, X, ChevronDown, Music } from 'lucide-react';
+import { Menu, X, ChevronDown, Headphones } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navbar = () => {
@@ -13,7 +13,7 @@ const Navbar = () => {
   const routes = [
     { name: 'Accueil', path: '/' },
     { name: 'Services', path: '/services' },
-    { name: 'Espace Artiste', path: '/artistes' },
+    { name: 'Les Artistes', path: '/artistes' },
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -36,14 +36,13 @@ const Navbar = () => {
     <header 
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out py-4',
-        isScrolled ? 'glass-morphism shadow-sm py-3' : 'bg-transparent'
+        isScrolled ? 'glass-morphism shadow-sm' : 'bg-transparent'
       )}
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 animate-fade-in">
-            <Music size={28} className="text-brand-600" />
-            <span className="font-bold text-xl tracking-tight">BkoTube</span>
+            <img src="/lovable-uploads/4be3a94e-de95-4478-94aa-dceac072a809.png" alt="BkoTube Logo" className="h-12 w-auto animate-glow" />
           </Link>
           
           {/* Desktop Navigation */}
@@ -55,34 +54,38 @@ const Navbar = () => {
                 className={cn(
                   'px-4 py-2 rounded-full text-sm font-medium transition-all duration-200',
                   location.pathname === route.path
-                    ? 'text-primary bg-primary/10'
-                    : 'text-foreground/70 hover:text-foreground hover:bg-accent',
-                  'animate-fade-in',
+                    ? 'text-brand-500 bg-brand-500/10'
+                    : 'text-foreground/70 hover:text-brand-400 hover:bg-brand-500/5',
+                  'animate-fade-in group',
                 )}
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                {route.name}
+                <span className="relative">
+                  {route.name}
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-brand-500 transition-all duration-300 group-hover:w-full"></span>
+                </span>
               </Link>
             ))}
             <Button
               asChild
-              className="ml-2 animate-fade-in"
+              variant="outline"
+              className="ml-2 animate-fade-in border-brand-500 text-brand-500 hover:bg-brand-500/10 hover:text-brand-400"
               style={{ animationDelay: `${routes.length * 50}ms` }}
             >
-              <Link to="/login">Connexion</Link>
+              <Link to="/contact">Nous contacter</Link>
             </Button>
           </nav>
           
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden focus:outline-none"
+            className="md:hidden focus:outline-none text-brand-500"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
           >
             {isMenuOpen ? (
-              <X size={24} className="text-foreground transition-transform duration-300 ease-in-out" />
+              <X size={24} className="transition-transform duration-300 ease-in-out" />
             ) : (
-              <Menu size={24} className="text-foreground transition-transform duration-300 ease-in-out" />
+              <Menu size={24} className="transition-transform duration-300 ease-in-out" />
             )}
           </button>
         </div>
@@ -103,8 +106,8 @@ const Navbar = () => {
               className={cn(
                 'px-4 py-3 rounded-lg text-base font-medium transition-all duration-200',
                 location.pathname === route.path
-                  ? 'text-primary bg-primary/10'
-                  : 'text-foreground/80 hover:text-foreground hover:bg-accent',
+                  ? 'text-brand-500 bg-brand-500/10'
+                  : 'text-foreground/80 hover:text-brand-400 hover:bg-brand-500/5',
                 isMenuOpen ? 'animate-slide-up' : '',
               )}
               style={{ animationDelay: `${index * 50}ms` }}
@@ -114,10 +117,11 @@ const Navbar = () => {
           ))}
           <Button
             asChild
-            className={cn('mt-4', isMenuOpen ? 'animate-slide-up' : '')}
+            variant="outline"
+            className={cn('mt-4 border-brand-500 text-brand-500', isMenuOpen ? 'animate-slide-up' : '')}
             style={{ animationDelay: `${routes.length * 50}ms` }}
           >
-            <Link to="/login">Connexion</Link>
+            <Link to="/contact">Nous contacter</Link>
           </Button>
         </nav>
       </div>

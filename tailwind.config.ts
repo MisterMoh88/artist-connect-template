@@ -64,17 +64,17 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				brand: {
-					50: '#f0f9ff',
-					100: '#e0f2fe',
-					200: '#bae6fd',
-					300: '#7dd3fc',
-					400: '#38bdf8',
-					500: '#0ea5e9',
-					600: '#0284c7',
-					700: '#0369a1',
-					800: '#075985',
-					900: '#0c4a6e',
-					950: '#082f49',
+					50: '#fff9e6',
+					100: '#ffecb3',
+					200: '#ffe180',
+					300: '#ffd54d',
+					400: '#ffc91a',
+					500: '#ffbf00', // Gold
+					600: '#e6ac00',
+					700: '#cc9900',
+					800: '#b38600',
+					900: '#996600',
+					950: '#664400',
 				}
 			},
 			borderRadius: {
@@ -123,6 +123,14 @@ export default {
 					'0%': { backgroundPosition: '0% 50%' },
 					'50%': { backgroundPosition: '100% 50%' },
 					'100%': { backgroundPosition: '0% 50%' }
+				},
+				'matrix-fall': {
+					'0%': { transform: 'translateY(-100%)', opacity: '1' },
+					'100%': { transform: 'translateY(100vh)', opacity: '0' }
+				},
+				'glow': {
+					'0%, 100%': { filter: 'brightness(1)' },
+					'50%': { filter: 'brightness(1.3)' }
 				}
 			},
 			animation: {
@@ -135,8 +143,14 @@ export default {
 				'bounce-subtle': 'bounce-subtle 2s ease-in-out infinite',
 				'float': 'float 3s ease-in-out infinite',
 				'pulse-subtle': 'pulse-subtle 2s ease-in-out infinite',
-				'gradient-shift': 'gradient-shift 3s ease infinite'
-			}
+				'gradient-shift': 'gradient-shift 3s ease infinite',
+				'matrix-fall': 'matrix-fall 10s linear infinite',
+				'glow': 'glow 2s ease-in-out infinite'
+			},
+			fontFamily: {
+				sans: ['Montserrat', 'sans-serif'],
+				heading: ['Bebas Neue', 'cursive'],
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
