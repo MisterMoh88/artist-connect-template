@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import { Menu, X, ChevronDown, Headphones } from 'lucide-react';
+import { Menu, X, ChevronDown, Headphones, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Navbar = () => {
@@ -72,7 +72,10 @@ const Navbar = () => {
               className="ml-2 animate-fade-in border-brand-500 text-brand-500 hover:bg-brand-500/10 hover:text-brand-400"
               style={{ animationDelay: `${routes.length * 50}ms` }}
             >
-              <Link to="/contact">Nous contacter</Link>
+              <Link to="/admin">
+                <Lock size={16} className="mr-1" />
+                Administration
+              </Link>
             </Button>
           </nav>
           
@@ -121,7 +124,10 @@ const Navbar = () => {
             className={cn('mt-4 border-brand-500 text-brand-500', isMenuOpen ? 'animate-slide-up' : '')}
             style={{ animationDelay: `${routes.length * 50}ms` }}
           >
-            <Link to="/contact">Nous contacter</Link>
+            <Link to="/admin">
+              <Lock size={16} className="mr-1" />
+              Administration
+            </Link>
           </Button>
         </nav>
       </div>

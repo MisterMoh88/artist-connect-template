@@ -25,7 +25,8 @@ export const generateNavigationMenusXML = (): string => {
         { title: 'À propos', url: '/a-propos', order: 2 },
         { title: 'Confidentialité', url: '/confidentialite', order: 3 },
         { title: 'Conditions d\'utilisation', url: '/conditions-utilisation', order: 4 },
-        { title: 'Contact', url: '/contact', order: 5 }
+        { title: 'Contact', url: '/contact', order: 5 },
+        { title: 'Administration', url: '/admin', order: 6 }
       ]
     }
   };
